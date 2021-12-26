@@ -1,5 +1,6 @@
 package com.hoaxifyapp.hoaxifyapp.entities.concreates;
 
+import com.hoaxifyapp.hoaxifyapp.business.utilities.annotations.UniqueUsername;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class User {
 
     @NotBlank
     @Column(name = "username")
+    @UniqueUsername
     private String username;
 
     @NotBlank
