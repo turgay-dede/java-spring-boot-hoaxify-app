@@ -1,14 +1,16 @@
 package com.hoaxifyapp.hoaxifyapp.business.abstracts;
 
+import com.hoaxifyapp.hoaxifyapp.core.utilities.results.DataResult;
+import com.hoaxifyapp.hoaxifyapp.core.utilities.results.Result;
 import com.hoaxifyapp.hoaxifyapp.entities.concreates.User;
 
 import java.util.List;
 
 public interface UserService {
-    void add(User theUser);
-    void delete(User theUser);
-    void update(User theUser);
-    List<User> getAll();
-    User getById(int theId);
+    Result add(User theUser);
+    Result delete(User theUser);
+    Result update(User theUser);
+    DataResult<List<User>> getAll();
+    DataResult<User> getById(int theId);
 
 }
