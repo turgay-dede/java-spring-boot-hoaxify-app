@@ -2,14 +2,15 @@ package com.hoaxifyapp.hoaxifyapp.api;
 
 import com.hoaxifyapp.hoaxifyapp.business.abstracts.UserService;
 import com.hoaxifyapp.hoaxifyapp.business.constants.Messages;
-import com.hoaxifyapp.hoaxifyapp.core.utilities.results.DataResult;
-import com.hoaxifyapp.hoaxifyapp.core.utilities.results.Result;
-import com.hoaxifyapp.hoaxifyapp.core.utilities.results.SuccessDataResult;
-import com.hoaxifyapp.hoaxifyapp.core.utilities.results.SuccessResult;
+import com.hoaxifyapp.hoaxifyapp.core.utilities.results.*;
 import com.hoaxifyapp.hoaxifyapp.entities.concreates.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody User theUser){
+    public Result add(@Valid @RequestBody User theUser){
         this.userService.add(theUser);
         return new SuccessResult(Messages.Added);
     }
@@ -36,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public Result update(@RequestBody User theUser){
+    public Result update(@Valid @RequestBody User theUser){
         this.userService.update(theUser);
         return new SuccessResult(Messages.Updated);
     }
@@ -49,5 +50,16 @@ public class UserController {
     @GetMapping("/getbyid")
     public DataResult<User> getById(int theId){
         return new SuccessDataResult<>(this.userService.getById(theId).getData(),Messages.Finded);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Result handleValidationException(MethodArgumentNotValidException exception){
+
+        StringBuilder validationErrors = new StringBuilder();
+        for (FieldError fieldError : exception.getBindingResult().getFieldErrors()){
+            validationErrors.append(fieldError.getField()).append(": ").append(fieldError.getDefaultMessage()).append(" ");
+        }
+        return new ErrorResult(validationErrors.toString());
     }
 }
