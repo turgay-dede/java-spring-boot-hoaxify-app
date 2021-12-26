@@ -9,6 +9,8 @@ import com.hoaxifyapp.hoaxifyapp.core.utilities.results.SuccessResult;
 import com.hoaxifyapp.hoaxifyapp.dataAccess.UserDao;
 import com.hoaxifyapp.hoaxifyapp.entities.concreates.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,14 +19,17 @@ import java.util.List;
 public class UserManager implements UserService {
 
     UserDao userDao;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserManager(UserDao theUserDao) {
         this.userDao = theUserDao;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @Override
     public Result add(User theUser) {
+        theUser.setPassword(passwordEncoder.encode(theUser.getPassword()));
         this.userDao.save(theUser);
         return new SuccessResult(Messages.Added);
     }
@@ -37,6 +42,7 @@ public class UserManager implements UserService {
 
     @Override
     public Result update(User theUser) {
+        theUser.setPassword(passwordEncoder.encode(theUser.getPassword()));
         this.userDao.save(theUser);
         return new SuccessResult(Messages.Updated);
     }
