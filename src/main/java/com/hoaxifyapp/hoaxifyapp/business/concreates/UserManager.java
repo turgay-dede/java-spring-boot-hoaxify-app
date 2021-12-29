@@ -2,10 +2,7 @@ package com.hoaxifyapp.hoaxifyapp.business.concreates;
 
 import com.hoaxifyapp.hoaxifyapp.business.abstracts.UserService;
 import com.hoaxifyapp.hoaxifyapp.business.constants.Messages;
-import com.hoaxifyapp.hoaxifyapp.core.utilities.results.DataResult;
-import com.hoaxifyapp.hoaxifyapp.core.utilities.results.Result;
-import com.hoaxifyapp.hoaxifyapp.core.utilities.results.SuccessDataResult;
-import com.hoaxifyapp.hoaxifyapp.core.utilities.results.SuccessResult;
+import com.hoaxifyapp.hoaxifyapp.core.utilities.results.*;
 import com.hoaxifyapp.hoaxifyapp.dataAccess.UserDao;
 import com.hoaxifyapp.hoaxifyapp.entities.concreates.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +20,7 @@ public class UserManager implements UserService {
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserManager(UserDao theUserDao,PasswordEncoder passwordEncoder) {
+    public UserManager(UserDao theUserDao, PasswordEncoder passwordEncoder) {
         this.userDao = theUserDao;
         this.passwordEncoder = passwordEncoder;
     }
@@ -50,7 +47,7 @@ public class UserManager implements UserService {
 
     @Override
     public DataResult<List<User>> getAll() {
-        return new SuccessDataResult<>(this.userDao.findAll(),Messages.Listed);
+        return new SuccessDataResult<>(this.userDao.findAll(), Messages.Listed);
     }
 
     @Override
@@ -60,6 +57,11 @@ public class UserManager implements UserService {
 
     @Override
     public DataResult<User> getById(int theId) {
-        return new SuccessDataResult<>(this.userDao.getById(theId),Messages.Finded);
+        User theUser = this.userDao.findById(theId);
+
+        if (theUser == null) {
+            return new ErrorDataResult<>("Kullanıcı bulunamadı", null);
+        }
+        return new SuccessDataResult<>(theUser,Messages.Finded);
     }
 }

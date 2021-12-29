@@ -26,35 +26,32 @@ public class UserController {
 
     @PostMapping("/add")
     public Result add(@Valid @RequestBody User theUser){
-        this.userService.add(theUser);
-        return new SuccessResult(Messages.Added);
+        return this.userService.add(theUser);
     }
 
     @GetMapping("/delete")
     public Result delete(@RequestBody User theUser){
-        this.userService.delete(theUser);
-        return new SuccessResult(Messages.Deleted);
+        return this.userService.delete(theUser);
     }
 
     @PostMapping("/update")
     public Result update(@Valid @RequestBody User theUser){
-        this.userService.update(theUser);
-        return new SuccessResult(Messages.Updated);
+        return this.userService.update(theUser);
     }
 
     @GetMapping("/getall")
     public DataResult<List<User>> getAll(){
-        return new SuccessDataResult<>(this.userService.getAll().getData(),Messages.Listed);
+        return this.userService.getAll();
     }
 
     @GetMapping("/getall/pageable")
     public DataResult<List<User>> getAllPageable(Pageable pageable){
-        return new SuccessDataResult<>(this.userService.getAllPageable(pageable).getData(),Messages.Listed);
+        return this.userService.getAllPageable(pageable);
     }
 
     @GetMapping("/getbyid")
     public DataResult<User> getById(int theId){
-        return new SuccessDataResult<>(this.userService.getById(theId).getData(),Messages.Finded);
+        return this.userService.getById(theId);
     }
 
 }
