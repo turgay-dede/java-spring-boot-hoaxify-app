@@ -22,9 +22,9 @@ public class UserManager implements UserService {
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserManager(UserDao theUserDao) {
+    public UserManager(UserDao theUserDao,PasswordEncoder passwordEncoder) {
         this.userDao = theUserDao;
-        this.passwordEncoder = new BCryptPasswordEncoder();
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override

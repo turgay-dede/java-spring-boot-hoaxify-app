@@ -1,6 +1,17 @@
 package com.hoaxifyapp.hoaxifyapp.core.utilities.results;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.util.Map;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorDataResult<T> extends DataResult<T> {
+    private Map<String,String> validationErrors;
+
+    public ErrorDataResult(String message, T data, Map<String,String> validationErrors) {
+        super(false, data, message);
+        this.validationErrors = validationErrors;
+    }
     public ErrorDataResult(String message, T data) {
         super(false, data, message);
     }
@@ -15,5 +26,9 @@ public class ErrorDataResult<T> extends DataResult<T> {
 
     public ErrorDataResult() {
         super(false, null);
+    }
+
+    public Map<String, String> getValidationErrors() {
+        return validationErrors;
     }
 }

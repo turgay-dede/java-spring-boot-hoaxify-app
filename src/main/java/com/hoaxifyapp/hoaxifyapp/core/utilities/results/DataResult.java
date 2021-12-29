@@ -1,5 +1,7 @@
 package com.hoaxifyapp.hoaxifyapp.core.utilities.results;
 
+import java.util.Map;
+
 public class DataResult<T> extends Result {
     private T data;
 

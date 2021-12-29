@@ -11,7 +11,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -52,14 +54,13 @@ public class UserController {
         return new SuccessDataResult<>(this.userService.getById(theId).getData(),Messages.Finded);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Result handleValidationException(MethodArgumentNotValidException exception){
-
-        StringBuilder validationErrors = new StringBuilder();
-        for (FieldError fieldError : exception.getBindingResult().getFieldErrors()){
-            validationErrors.append(fieldError.getField()).append(": ").append(fieldError.getDefaultMessage()).append(" ");
-        }
-        return new ErrorResult(validationErrors.toString());
-    }
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public Result handleValidationException(MethodArgumentNotValidException exception){
+//        Map<String,String> validationErrors = new HashMap<>();
+//        for (FieldError fieldError : exception.getBindingResult().getFieldErrors()){
+//            validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
+//        }
+//        return new ErrorResult(Messages.MethodArgumentNotValidException,validationErrors);
+//    }
 }

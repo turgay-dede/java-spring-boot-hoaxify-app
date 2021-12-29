@@ -1,5 +1,10 @@
 package com.hoaxifyapp.hoaxifyapp.core.utilities.results;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.util.Map;
+
+
 public class Result {
     private boolean success;
     private String message;
@@ -20,4 +25,5 @@ public class Result {
     public String getMessage() {
         return message;
     }
+
 }
