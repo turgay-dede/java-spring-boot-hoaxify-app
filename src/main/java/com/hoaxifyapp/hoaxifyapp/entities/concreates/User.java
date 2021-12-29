@@ -1,6 +1,7 @@
 package com.hoaxifyapp.hoaxifyapp.entities.concreates;
 
 import com.hoaxifyapp.hoaxifyapp.business.utilities.annotations.UniqueUsername;
+import com.hoaxifyapp.hoaxifyapp.entities.concreates.dtos.UpdateUserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class User {
 
     @NotBlank
     @Column(name = "username")
-    @UniqueUsername
+    //@UniqueUsername
     private String username;
 
     @NotBlank
@@ -34,4 +35,9 @@ public class User {
     @Size(min = 6, max = 20)
     @Column(name = "password")
     private String password;
+
+    public User(UpdateUserDto updateUserDto){
+        this.displayName = updateUserDto.getDisplayName();
+        this.password = updateUserDto.getPassword();
+    }
 }

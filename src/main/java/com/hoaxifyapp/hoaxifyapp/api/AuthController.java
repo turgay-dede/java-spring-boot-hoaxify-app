@@ -1,6 +1,7 @@
 package com.hoaxifyapp.hoaxifyapp.api;
 
 import com.hoaxifyapp.hoaxifyapp.business.abstracts.UserService;
+import com.hoaxifyapp.hoaxifyapp.business.utilities.annotations.CurrentUser;
 import com.hoaxifyapp.hoaxifyapp.core.business.auth.TokenManager;
 import com.hoaxifyapp.hoaxifyapp.core.utilities.results.DataResult;
 import com.hoaxifyapp.hoaxifyapp.core.utilities.results.SuccessDataResult;
@@ -9,10 +10,10 @@ import com.hoaxifyapp.hoaxifyapp.entities.concreates.dtos.LoginDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -39,11 +40,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public DataResult<String> login(@RequestBody User user) {
+    public DataResult<String> register(@RequestBody User user) {
         userService.add(user);
         return new SuccessDataResult<>("Katıy yapıldı");
 
     }
+
+
 
 
 }

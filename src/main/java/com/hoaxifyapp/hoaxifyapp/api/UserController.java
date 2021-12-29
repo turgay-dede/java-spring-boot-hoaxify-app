@@ -1,15 +1,16 @@
 package com.hoaxifyapp.hoaxifyapp.api;
 
 import com.hoaxifyapp.hoaxifyapp.business.abstracts.UserService;
-import com.hoaxifyapp.hoaxifyapp.business.constants.Messages;
 import com.hoaxifyapp.hoaxifyapp.core.utilities.results.*;
 import com.hoaxifyapp.hoaxifyapp.entities.concreates.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 
@@ -35,8 +36,9 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public Result update(@Valid @RequestBody User theUser){
-        return this.userService.update(theUser);
+    @PreAuthorize("#user.username == #principal.getName()")//SpEL
+    public Result update(@RequestBody User user, Principal principal){
+        return this.userService.update(user,principal);
     }
 
     @GetMapping("/getall")
@@ -49,8 +51,8 @@ public class UserController {
         return this.userService.getAllPageable(pageable);
     }
 
-    @GetMapping("/getbyid")
-    public DataResult<User> getById(int theId){
+    @GetMapping("/get/{theId}")
+    public DataResult<User> getById(@PathVariable int theId){
         return this.userService.getById(theId);
     }
 
