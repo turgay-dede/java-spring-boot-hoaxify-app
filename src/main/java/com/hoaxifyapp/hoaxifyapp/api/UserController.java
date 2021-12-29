@@ -5,15 +5,13 @@ import com.hoaxifyapp.hoaxifyapp.business.constants.Messages;
 import com.hoaxifyapp.hoaxifyapp.core.utilities.results.*;
 import com.hoaxifyapp.hoaxifyapp.entities.concreates.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -49,18 +47,14 @@ public class UserController {
         return new SuccessDataResult<>(this.userService.getAll().getData(),Messages.Listed);
     }
 
+    @GetMapping("/getall/pageable")
+    public DataResult<List<User>> getAllPageable(Pageable pageable){
+        return new SuccessDataResult<>(this.userService.getAllPageable(pageable).getData(),Messages.Listed);
+    }
+
     @GetMapping("/getbyid")
     public DataResult<User> getById(int theId){
         return new SuccessDataResult<>(this.userService.getById(theId).getData(),Messages.Finded);
     }
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public Result handleValidationException(MethodArgumentNotValidException exception){
-//        Map<String,String> validationErrors = new HashMap<>();
-//        for (FieldError fieldError : exception.getBindingResult().getFieldErrors()){
-//            validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
-//        }
-//        return new ErrorResult(Messages.MethodArgumentNotValidException,validationErrors);
-//    }
 }

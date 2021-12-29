@@ -9,6 +9,7 @@ import com.hoaxifyapp.hoaxifyapp.core.utilities.results.SuccessResult;
 import com.hoaxifyapp.hoaxifyapp.dataAccess.UserDao;
 import com.hoaxifyapp.hoaxifyapp.entities.concreates.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,11 @@ public class UserManager implements UserService {
     @Override
     public DataResult<List<User>> getAll() {
         return new SuccessDataResult<>(this.userDao.findAll(),Messages.Listed);
+    }
+
+    @Override
+    public DataResult<List<User>> getAllPageable(Pageable pageable) {
+        return new SuccessDataResult<>(userDao.findAll(pageable).getContent());
     }
 
     @Override
